@@ -7,6 +7,10 @@ function slideMobile(){
     let distMovement = 0;
     let distMovePosition = 0;
 
+    let slideArray;
+
+    let indexSlide;
+
     function moveSlide(distX){
         distMovePosition = distX;
         lista.style.transform = `translate3d(${distX}px, 0, 0)`;
@@ -50,6 +54,44 @@ function slideMobile(){
         wrapper.addEventListener('touchend', onEnd);
     }
 
+    /*Slides config*/
+
+    function slidePosition(slide){
+        const margin = (wrapper.offsetWidth - slide.offsetWidth) / 2;
+        return -(slide.offsetLeft - margin);
+    }
+
+    function slidesConfig(){
+        slideArray = [...lista.children].map((element) => {
+            const position = slidePosition(element);
+
+            return { position, element }
+        });
+
+        return slideArray;
+    }
+
+    function slidesIndexNav(index){
+        const last = slideArray.length - 1;
+
+        indexSlide = {
+            prev: index ? index - 1 : undefined,
+            active: index,
+            next: index === last ? undefined : index + 1,
+        }
+    }
+
+    function changeSlide(index){
+        const activeSlide = slidesConfig()[index];
+        moveSlide(activeSlide.position);
+        slidesIndexNav(index);
+        distFinalPosition = activeSlide.position;
+    }
+
+    changeSlide(2);
+
+    /*Slides config */
+
     /*Para o Slide funcionar somente no Mobile*/
     function debounce(callback, delay) {
         let timer;
@@ -89,6 +131,7 @@ function slideMobile(){
 
     function init(){
         addWindowEvents();
+        slidesConfig();
         /*return this;*/
     }
 

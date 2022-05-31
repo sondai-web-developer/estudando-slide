@@ -50,10 +50,10 @@ a{
     user-select: none;
 }
 
-.slide_item:nth-child(3n-1){
+/*.slide_item:nth-child(3n-1){
     margin-left: 30px;
     margin-right: 30px;
-}
+}*/
 
 .slide_item{
     transform: translate3d(0, 0, 0);
