@@ -2,19 +2,36 @@ function slideMobile(){
     const wrapper = document.querySelector('[data-slide="wrapper"]');
     const lista = document.querySelector('[data-slide="lista"]');
 
+    let distFinalPosition = 0;
+    let distStartX = 0;
+    let distMovement = 0;
+    let distMovePosition = 0;
+
+    function moveSlide(distX){
+        distMovePosition = distX;
+        lista.style.transform = `translate3d(${distX}px, 0, 0)`;
+    }
+
+    function updatePosition(clientX){
+        distMovement = (distStartX - clientX) * 1.6;
+        return distFinalPosition - distMovement;
+    }
+
     function onStart(event){
         event.preventDefault();
-        console.log('mousedown');
+        distStartX = event.clientX;
+        console.log(distStartX);
         wrapper.addEventListener('mousemove', onMove);
     }
 
     function onMove(event){
-        console.log('moveu');
+        const finalPosition = updatePosition(event.clientX);
+        moveSlide(finalPosition);
     }
 
     function onEnd(event){
-        console.log('acabou');
         wrapper.removeEventListener('mousemove', onMove);
+        distFinalPosition = distMovePosition;
     }
 
     function addSlideEvents(){
