@@ -18,25 +18,36 @@ function slideMobile(){
     }
 
     function onStart(event){
-        event.preventDefault();
-        distStartX = event.clientX;
-        console.log(distStartX);
-        wrapper.addEventListener('mousemove', onMove);
+        let movetype;
+
+        if(event.type === 'mousedown'){
+            event.preventDefault();
+            distStartX = event.clientX;
+            movetype = 'mousemove';
+        }else{
+            distStartX = event.changedTouches[0].clientX;
+            movetype = 'touchmove';
+        }
+        wrapper.addEventListener(movetype, onMove);
     }
 
     function onMove(event){
-        const finalPosition = updatePosition(event.clientX);
+        const pointerPosition = (event.type === 'mousemove') ? event.clientX : event.changedTouches[0].clientX;
+        const finalPosition = updatePosition(pointerPosition);
         moveSlide(finalPosition);
     }
 
     function onEnd(event){
-        wrapper.removeEventListener('mousemove', onMove);
+        const movetype = (event.type === 'mouseup') ? 'mousemove' : 'touchmove';
+        wrapper.removeEventListener(movetype, onMove);
         distFinalPosition = distMovePosition;
     }
 
     function addSlideEvents(){
         wrapper.addEventListener('mousedown', onStart);
+        wrapper.addEventListener('touchstart', onStart);
         wrapper.addEventListener('mouseup', onEnd);
+        wrapper.addEventListener('touchend', onEnd);
     }
 
     /*Para o Slide funcionar somente no Mobile*/
@@ -60,7 +71,9 @@ function slideMobile(){
 
     function removeSlideEvents(){
         wrapper.removeEventListener('mousedown', onStart);
+        wrapper.removeEventListener('touchstart', onStart);
         wrapper.removeEventListener('mouseup', onEnd);
+        wrapper.removeEventListener('touchend', onEnd);
     }
 
     function isMobile(){
