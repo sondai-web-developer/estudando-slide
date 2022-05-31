@@ -48,7 +48,6 @@ a{
     text-align: center;
     position: relative;
     user-select: none;
-    background: burlywood;
 }
 
 .slide_item{
@@ -100,8 +99,8 @@ a{
 .slide_item p{
     font-size: 1.0625em;
     font-family: 'Oxygen', sans-serif;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #saiba_mais{
@@ -114,6 +113,57 @@ a{
     background: #A9DBFF;
     padding: 10px 0;
     border-radius: 18% 53% 25% 28% / 35% 39% 50% 50% ;
+}
+
+@media (min-width:380px){
+    #slide_lista{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .slide_item{
+        user-select: auto;
+    }
+
+    .slide_item + .slide_item{
+        margin-top:60px;
+    }
+}
+
+@media (min-width: 580px){
+    .slide_item {
+        max-width: 420px;
+    }
+
+    .slide_item p{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+@media (min-width:780px){
+    #slide_lista{
+        max-width: 960px;
+    }
+
+    .slide_item {
+        max-width: 235px;
+    }
+
+    .slide_item + .slide_item{
+        margin-top: 0px;
+    }
+
+    .slide_item:nth-child(3n-1){
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
+
+@media (min-width:1070px){
+    .slide_item{
+        max-width: 300px;
+    }
 }
 
 /*Produtos*/
