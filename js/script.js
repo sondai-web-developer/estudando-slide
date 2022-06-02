@@ -11,6 +11,10 @@ function slideMobile(){
 
     let indexSlide;
 
+    function transition(active){
+        lista.style.transition = active ? 'transform .3s' : '';
+    }
+
     function moveSlide(distX){
         distMovePosition = distX;
         lista.style.transform = `translate3d(${distX}px, 0, 0)`;
@@ -33,6 +37,7 @@ function slideMobile(){
             movetype = 'touchmove';
         }
         wrapper.addEventListener(movetype, onMove);
+        transition(false);
     }
 
     function onMove(event){
@@ -45,6 +50,18 @@ function slideMobile(){
         const movetype = (event.type === 'mouseup') ? 'mousemove' : 'touchmove';
         wrapper.removeEventListener(movetype, onMove);
         distFinalPosition = distMovePosition;
+        transition(true);
+        changeSlideOnEnd();
+    }
+
+    function changeSlideOnEnd(){
+        if(distMovement > 120 && indexSlide.next !== undefined){
+            activeNextSlide();
+        }else if(distMovement < -120 && indexSlide.prev !== undefined){
+            activePrevSlide();
+        }else {
+            changeSlide(indexSlide.active);
+        }
     }
 
     function addSlideEvents(){
@@ -79,6 +96,8 @@ function slideMobile(){
             active: index,
             next: index === last ? undefined : index + 1,
         }
+
+        return indexSlide;
     }
 
     function changeSlide(index){
@@ -86,9 +105,21 @@ function slideMobile(){
         moveSlide(activeSlide.position);
         slidesIndexNav(index);
         distFinalPosition = activeSlide.position;
+    }   
+
+    function activePrevSlide(){
+        if(indexSlide.prev !== undefined){
+            changeSlide(indexSlide.prev);
+        }
     }
 
-    changeSlide(2);
+    function activeNextSlide(){
+        if(indexSlide.next !== undefined){
+            changeSlide(indexSlide.next);
+        }
+    }
+
+    changeSlide(0);
 
     /*Slides config */
 
@@ -130,6 +161,7 @@ function slideMobile(){
     }
 
     function init(){
+        transition(true);
         addWindowEvents();
         slidesConfig();
         /*return this;*/
