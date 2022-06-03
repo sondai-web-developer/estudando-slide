@@ -11,6 +11,17 @@ function slideMobile(){
 
     let indexSlide;
 
+    function debounce(callback, delay) {
+        let timer;
+        return (...args) => {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                callback(...args);
+                timer = null;
+            }, delay);
+        };
+    } 
+
     function transition(active){
         lista.style.transition = active ? 'transform .3s' : '';
     }
@@ -96,8 +107,6 @@ function slideMobile(){
             active: index,
             next: index === last ? undefined : index + 1,
         }
-
-        return indexSlide;
     }
 
     function changeSlide(index){
@@ -105,7 +114,7 @@ function slideMobile(){
         moveSlide(activeSlide.position);
         slidesIndexNav(index);
         distFinalPosition = activeSlide.position;
-    }   
+    }
 
     function activePrevSlide(){
         if(indexSlide.prev !== undefined){
@@ -119,21 +128,23 @@ function slideMobile(){
         }
     }
 
-    changeSlide(0);
+    function onResize(){
+        setTimeout(() => {
+            slidesConfig();
+            changeSlide(indexSlide.active);
+        }, 200);
+    }
+
+    function addResizeEvent(){
+        const debouncedOnResize = debounce(onResize, 200);
+
+        window.addEventListener('load', onResize);
+        window.addEventListener('resize', debouncedOnResize);
+    }
 
     /*Slides config */
 
     /*Para o Slide funcionar somente no Mobile*/
-    function debounce(callback, delay) {
-        let timer;
-        return (...args) => {
-            if (timer) clearTimeout(timer);
-            timer = setTimeout(() => {
-                callback(...args);
-                timer = null;
-            }, delay);
-        };
-    } 
 
     function addWindowEvents(){
         const debouncedIsMobile = debounce(isMobile, 200);
@@ -155,8 +166,10 @@ function slideMobile(){
 
         if(windowWidth < windowMobile){
             addSlideEvents();
+            changeSlide(0);
         }else{
             removeSlideEvents();
+            changeSlide(1);
         }
     }
 
@@ -164,7 +177,7 @@ function slideMobile(){
         transition(true);
         addWindowEvents();
         slidesConfig();
-        /*return this;*/
+        addResizeEvent();
     }
 
     init();
