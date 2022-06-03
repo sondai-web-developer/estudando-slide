@@ -11,6 +11,10 @@ function slideMobile(){
 
     let indexSlide;
 
+    const prevElement = document.querySelector('[data-slide="prev"]');
+    const nextElement = document.querySelector('[data-slide="next"]');
+
+
     function debounce(callback, delay) {
         let timer;
         return (...args) => {
@@ -144,6 +148,20 @@ function slideMobile(){
 
     /*Slides config */
 
+    /*Navegação*/
+
+    function addArrowEvent(){
+        prevElement.addEventListener('click', activePrevSlide);
+        nextElement.addEventListener('click', activeNextSlide);
+    }
+
+    function removeArrowEvent(){
+        prevElement.removeEventListener('click', activePrevSlide);
+        nextElement.removeEventListener('click', activeNextSlide);
+    }
+
+    /*Navegação*/
+
     /*Para o Slide funcionar somente no Mobile*/
 
     function addWindowEvents(){
@@ -167,9 +185,11 @@ function slideMobile(){
         if(windowWidth < windowMobile){
             addSlideEvents();
             changeSlide(0);
+            addArrowEvent();
         }else{
             removeSlideEvents();
             changeSlide(1);
+            removeArrowEvent();
         }
     }
 
