@@ -113,6 +113,13 @@ a{
 }
 
 @media (min-width:380px){
+    .slide_item p{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (min-width:420px){
     #slide_lista{
         flex-wrap: wrap;
         justify-content: center;
@@ -193,7 +200,7 @@ a{
     display: none;
 }
 
-@media (min-width:380px) {
+@media (min-width:420px) {
     [data-slide="control"]{
         display: none;
     }

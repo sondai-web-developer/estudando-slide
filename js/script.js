@@ -228,7 +228,7 @@ function slideMobile(){
 
     function isMobile(){
         const windowWidth = window.innerWidth;
-        const windowMobile = 380;
+        const windowMobile = 420;
 
         if(windowWidth < windowMobile){
             addSlideEvents();
