@@ -168,4 +168,35 @@ a{
     }
 }
 
+[data-slide="control"] {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+[data-slide="control"] li a{
+    display: block;
+    width:12px;
+    height:12px;
+    background: rgba(0, 0, 0, .3);
+    border-radius: 50%;
+    overflow: hidden;
+    text-indent: -999px;
+    margin:0 5px;
+}
+
+[data-slide="control"] li.ativar a, [data-slide="control"] li a:hover{
+    background: #A9DBFF;
+}
+
+#arrow_nav{
+    display: none;
+}
+
+@media (min-width:380px) {
+    [data-slide="control"]{
+        display: none;
+    }
+}
+
 /*Produtos*/

@@ -14,6 +14,11 @@ function slideMobile(){
     const prevElement = document.querySelector('[data-slide="prev"]');
     const nextElement = document.querySelector('[data-slide="next"]');
 
+    let control;
+    let controlArray;
+
+    const changeEvent = new Event('changeEvent');
+
 
     function debounce(callback, delay) {
         let timer;
@@ -118,6 +123,7 @@ function slideMobile(){
         moveSlide(activeSlide.position);
         slidesIndexNav(index);
         distFinalPosition = activeSlide.position;
+        wrapper.dispatchEvent(changeEvent);
     }
 
     function activePrevSlide(){
@@ -162,6 +168,47 @@ function slideMobile(){
 
     /*Navegação*/
 
+    /*Paginação*/
+
+    function createControl(){
+        const control = document.createElement('ul');
+        control.dataset.slide = 'control';
+        const slideArray = slidesConfig();
+        
+        slideArray.forEach((item, index) => {
+            control.innerHTML += `<li><a href="#slide${index + 1}">${index + 1}</a></li>`;
+        });
+        wrapper.appendChild(control);
+
+        return control;
+    }
+
+    function eventControl(item, index) {
+        item.addEventListener('click', (event) => {
+            event.preventDefault();
+            changeSlide(index);
+        });
+        wrapper.addEventListener('changeEvent', activeControlItem);
+    }
+
+    function activeControlItem(){
+        controlArray.forEach(item => item.classList.remove('ativar'));
+        controlArray[indexSlide.active].classList.add('ativar');
+    }
+
+    function addControl(customControl){
+        control = document.querySelector(customControl) || createControl();
+        controlArray = [...control.children];
+
+        controlArray.forEach((item, index) => {
+            eventControl(item, index);
+        });
+    }
+
+    addControl();
+
+    /*Paginação*/
+
     /*Para o Slide funcionar somente no Mobile*/
 
     function addWindowEvents(){
@@ -201,6 +248,7 @@ function slideMobile(){
     }
 
     init();
+
     /*Para o Slide funcionar somente no Mobile*/
 }
 
