@@ -185,7 +185,7 @@ a{
     margin:0 5px;
 }
 
-[data-slide="control"] li.ativar a, [data-slide="control"] li a:hover{
+[data-slide="control"] li.ativar a{
     background: #A9DBFF;
 }
 

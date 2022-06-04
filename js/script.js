@@ -188,6 +188,7 @@ function slideMobile(){
             event.preventDefault();
             changeSlide(index);
         });
+
         wrapper.addEventListener('changeEvent', activeControlItem);
     }
 
